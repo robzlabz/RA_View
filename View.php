@@ -1,5 +1,11 @@
 <?php
 
+Class Str {
+	static function slug($string) {
+		return strtolower(str_replace(['----','---','--'],'-', preg_replace('/[^a-zA-Z0-9_]/', '-', $string)));
+	}
+}
+
 class View {
 
 	public static function make($path, $vars = []) {
@@ -16,7 +22,7 @@ class View {
 			$path = $path . '.php';
 		}
 
-		$hash = Post::slug($path);
+		$hash = Str::slug($path);
 		$_path = __DIR__ . '/data/views/' . $hash . '.php';
 
 		if(file_exists($_path)) {
@@ -24,8 +30,12 @@ class View {
 		}
 
 		$o = [
+			'{{--',
+			'--}}',
 			'{{',
 			'}}',
+			'{!',
+			'!}',
 			'@foreach',
 			'@for',
 			'@if',
@@ -37,7 +47,11 @@ class View {
 		];
 
 		$d = [
+			'<!--',
+			'-->',
 			'<?php echo ',
+			'?>',
+			'<?php ',
 			'?>',
 			'<?php foreach',
 			'<?php for',

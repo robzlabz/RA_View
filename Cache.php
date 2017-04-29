@@ -46,4 +46,28 @@ Class Cache {
 		}
 		return false;
 	}
+
+	public static function search($path, $string = null, $fullpath = true) {
+		$path = self::path($path);
+		if(is_dir($path)) {
+			$files = array_diff(scandir($path),['.','..']);
+			$match = [];
+
+			if($string === null) {
+				$match = $files;
+			} else {
+				foreach($files as $file) {
+					if(stripos($file, $string) !== false) {
+						if($fullpath == true) {
+							$match[] = $path  . '/' . $file;	
+						}else{
+							$match[] = $file;
+						}						
+					}
+				}
+			}
+			return $match;
+		}
+		return [];
+	}
 }

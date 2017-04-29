@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 Class Cache {
 
@@ -22,7 +22,7 @@ Class Cache {
 		$path = self::path($key);
 		if(is_file($path) && file_exists($path)) {
 			$data = unserialize(file_get_contents($path));
-			if($data['expire'] == 0 || $data['expire'] > time()) {
+			if($data['expire'] == 0 || $data['expire'] >= time()) {
 				return $data['value'];
 			}
 		}
@@ -40,7 +40,7 @@ Class Cache {
 		$path = self::path($key);
 		if(is_file($path) && file_exists($path)) {
 			$data = unserialize(file_get_contents($path));
-			if($data['expire'] == 0 || $data['expire'] > time()) {
+			if($data['expire'] == 0 || $data['expire'] >= time()) {
 				return true;
 			}
 		}
